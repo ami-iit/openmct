@@ -802,8 +802,6 @@ export default {
             return [ARROW_RIGHT, ARROW_LEFT].includes(keyCode);
         },
         getImageNaturalDimensions() {
-            this.focusedImageNaturalAspectRatio = undefined;
-
             const img = this.$refs.focusedImage;
             if (!img) {
                 return;
