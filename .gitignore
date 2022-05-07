@@ -47,7 +47,7 @@ report.*.json
 test-results
 allure-results
 
-package-lock.json
+#package-lock.json
 
 #codecov artifacts
 codecov
