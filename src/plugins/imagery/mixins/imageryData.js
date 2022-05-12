@@ -163,6 +163,9 @@ export default {
                         let image = this.normalizeDatum(datum);
                         if (image) {
                             this.imageHistory.push(image);
+                            if (this.imageHistory.length > 2) {
+                                this.imageHistory.shift();
+                            }
                         }
                     }
                 });
