@@ -52,8 +52,8 @@ export default {
     computed: {
         plotAxisTitle() {
             const { xAxisMetadata = {}, yAxisMetadata = {} } = this.trace[0] || {};
-            const xAxisUnit = xAxisMetadata.units ? `(${xAxisMetadata.units})` : '';
-            const yAxisUnit = yAxisMetadata.units ? `(${yAxisMetadata.units})` : '';
+            const xAxisUnit = xAxisMetadata.unit ? `(${xAxisMetadata.unit})` : '';
+            const yAxisUnit = yAxisMetadata.unit ? `(${yAxisMetadata.unit})` : '';
 
             return {
                 xAxisTitle: `${xAxisMetadata.name || ''} ${xAxisUnit}`,

@@ -204,7 +204,7 @@ export default class YAxisModel extends Model {
             }
 
             const labelUnits = series.map(function (s) {
-                return s.metadata ? s.metadata.value(s.get('yKey')).units : '';
+                return s.metadata ? s.metadata.value(s.get('yKey')).unit : '';
             }).reduce(function (a, b) {
                 if (a === undefined) {
                     return b;

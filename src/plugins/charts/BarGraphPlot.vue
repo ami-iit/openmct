@@ -142,7 +142,7 @@ export default {
                 const range = '1';
                 const side = 'left';
                 const name = '';
-                const unit = yAxisMetadata.units;
+                const unit = yAxisMetadata.unit;
 
                 yAxisMeta[range] = {
                     range,
