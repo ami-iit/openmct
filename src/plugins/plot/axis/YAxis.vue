@@ -92,6 +92,7 @@ export default {
     },
     mounted() {
         this.yAxis = this.getYAxisFromConfig();
+        this.yAxisLabel = this.yAxis.get('label');
         this.loaded = true;
         this.setUpYAxisOptions();
     },
@@ -126,7 +127,7 @@ export default {
 
             if (yAxisObject) {
                 this.$emit('yKeyChanged', yAxisObject.key);
-                this.yAxis.set('label', this.yAxisLabel);
+                this.yAxisLabel = this.yAxis.get('label');
             }
         },
         onTickWidthChange(width) {
