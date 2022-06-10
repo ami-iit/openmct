@@ -127,7 +127,7 @@ export default {
 
             if (yAxisObject) {
                 this.$emit('yKeyChanged', yAxisObject.key);
-                this.yAxisLabel = this.yAxis.get('label');
+                this.$nextTick(function () {this.yAxisLabel = this.yAxis.get('label')}.bind(this));
             }
         },
         onTickWidthChange(width) {
