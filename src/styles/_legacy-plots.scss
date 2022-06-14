@@ -227,7 +227,8 @@ mct-plot {
             display: block;
             left: 0; top: 0; right: auto; bottom: 0;
             text-orientation: mixed;
-            writing-mode: vertical-lr;
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
             &:before {
                 // Icon denoting configurability
                 margin-bottom: $interiorMargin; // Uses margin-bottom due to writing-mode
