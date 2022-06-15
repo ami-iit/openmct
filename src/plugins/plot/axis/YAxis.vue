@@ -30,7 +30,7 @@
     <div v-if="singleSeries"
          class="gl-plot-label gl-plot-y-label"
          :class="{'icon-gear': (yKeyOptions.length > 1)}"
-    >{{ yAxisLabel }}
+    >{{ yAxisLabel }} [{{ yAxisUnit }}]
     </div>
 
     <select v-if="yKeyOptions.length > 1 && singleSeries"
@@ -87,12 +87,14 @@ export default {
     data() {
         return {
             yAxisLabel: 'none',
+            yAxisUnit: 'none',
             loaded: false
         };
     },
     mounted() {
         this.yAxis = this.getYAxisFromConfig();
         this.yAxisLabel = this.yAxis.get('label');
+        this.yAxisUnit = this.yAxis.get('unit');
         this.loaded = true;
         this.setUpYAxisOptions();
     },
@@ -127,7 +129,10 @@ export default {
 
             if (yAxisObject) {
                 this.$emit('yKeyChanged', yAxisObject.key);
-                this.$nextTick(function () {this.yAxisLabel = this.yAxis.get('label')}.bind(this));
+                this.$nextTick(function () {
+                  this.yAxisLabel = this.yAxis.get('label');
+                  this.yAxisUnit = this.yAxis.get('unit');
+                }.bind(this));
             }
         },
         onTickWidthChange(width) {

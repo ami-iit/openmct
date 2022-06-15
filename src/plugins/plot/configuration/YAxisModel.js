@@ -199,11 +199,9 @@ export default class YAxisModel extends Model {
 
             if (labelName) {
                 this.set('label', labelName);
-
-                return;
             }
 
-            const labelUnits = series.map(function (s) {
+            const labelUnit = series.map(function (s) {
                 return s.metadata ? s.metadata.value(s.get('yKey')).unit : '';
             }).reduce(function (a, b) {
                 if (a === undefined) {
@@ -217,10 +215,8 @@ export default class YAxisModel extends Model {
                 return '';
             }, undefined);
 
-            if (labelUnits) {
-                this.set('label', labelUnits);
-
-                return;
+            if (labelUnit) {
+                this.set('unit', labelUnit);
             }
         }
     }

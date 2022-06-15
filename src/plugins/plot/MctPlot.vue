@@ -212,6 +212,7 @@ export default {
             tickWidth: 0,
             yKeyOptions: [],
             yAxisLabel: '',
+            yAxisUnit: '',
             rectangles: [],
             plotHistory: [],
             selectedXKeyOption: {},
@@ -572,6 +573,7 @@ export default {
             this.initCanvas();
 
             this.config.yAxisLabel = this.config.yAxis.get('label');
+            this.config.yAxisUnit = this.config.yAxis.get('unit');
 
             this.cursorGuideVertical = this.$refs.cursorGuideVertical;
             this.cursorGuideHorizontal = this.$refs.cursorGuideHorizontal;
