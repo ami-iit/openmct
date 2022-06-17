@@ -505,4 +505,11 @@ export default class PlotSeries extends Model {
     getSeriesData() {
         return configStore.get(this.dataStoreId) || [];
     }
+
+    /**
+     * Get metadata properties indexed by the yKey
+     */
+    getFromMetadata(attribute) {
+        return this.metadata.value(this.get('yKey'))[attribute];
+    }
 }

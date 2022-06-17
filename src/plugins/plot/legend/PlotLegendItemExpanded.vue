@@ -52,7 +52,7 @@
         </span>
     </td>
     <td v-if="showUnitsWhenExpanded">
-        <span class="plot-series-value cursor-hover hover-value-enabled">
+        <span class="plot-series-value">
             {{ unit }}
         </span>
     </td>
@@ -136,15 +136,20 @@ export default {
     },
     mounted() {
         this.initialize();
+        this.seriesObject.listenTo(this.seriesObject, 'change:yKey', () => {
+            this.unit = this.seriesObject.get('unit');
+        }, this);
     },
     methods: {
         initialize(highlightedObject) {
             const seriesObject = highlightedObject ? highlightedObject.series : this.seriesObject;
+            if (!highlightedObject) {
+                this.name = seriesObject.get('name');
+                this.unit = seriesObject.get('unit');
+            }
 
             this.isMissing = seriesObject.domainObject.status === 'missing';
             this.colorAsHexString = seriesObject.get('color').asHexString();
-            this.name = seriesObject.get('name');
-            this.unit = seriesObject.get('unit');
             const closest = seriesObject.closest;
             if (closest) {
                 this.formattedYValue = seriesObject.formatY(closest);
