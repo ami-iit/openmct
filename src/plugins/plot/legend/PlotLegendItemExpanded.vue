@@ -100,8 +100,6 @@ export default {
         return {
             isMissing: false,
             colorAsHexString: '',
-            name: '',
-            unit: '',
             formattedYValue: '',
             formattedXValue: '',
             formattedMinY: '',
@@ -124,6 +122,12 @@ export default {
         },
         showTimestampWhenExpanded() {
             return this.legend.get('showTimestampWhenExpanded') === true;
+        },
+        name() {
+            return this.seriesObject.get('name');
+        },
+        unit() {
+            return this.seriesObject.get('unit');
         }
     },
     watch: {
@@ -136,16 +140,10 @@ export default {
     },
     mounted() {
         this.initialize();
-        this.seriesObject.listenTo(this.seriesObject, 'change:unit', () => {this.unit = this.seriesObject.get('unit')}, this);
     },
     methods: {
         initialize(highlightedObject) {
             const seriesObject = highlightedObject ? highlightedObject.series : this.seriesObject;
-            if (!highlightedObject) {
-                this.name = seriesObject.get('name');
-                this.unit = seriesObject.get('unit');
-            }
-
             this.isMissing = seriesObject.domainObject.status === 'missing';
             this.colorAsHexString = seriesObject.get('color').asHexString();
             const closest = seriesObject.closest;
