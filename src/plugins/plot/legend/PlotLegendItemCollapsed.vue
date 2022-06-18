@@ -75,7 +75,6 @@ export default {
         return {
             isMissing: false,
             colorAsHexString: '',
-            nameWithUnit: '',
             formattedYValue: '',
             formattedXValue: '',
             mctLimitStateClass: '',
@@ -83,6 +82,9 @@ export default {
         };
     },
     computed: {
+        nameWithUnit() {
+            return this.seriesObject.nameWithUnit();
+        },
         valueToDisplayWhenCollapsedClass() {
             return `value-to-display-${ this.valueToShowWhenCollapsed }`;
         },
@@ -106,7 +108,6 @@ export default {
             const seriesObject = highlightedObject ? highlightedObject.series : this.seriesObject;
             this.isMissing = seriesObject.domainObject.status === 'missing';
             this.colorAsHexString = seriesObject.get('color').asHexString();
-            this.nameWithUnit = seriesObject.nameWithUnit();
 
             const closest = seriesObject.closest;
             if (closest) {
