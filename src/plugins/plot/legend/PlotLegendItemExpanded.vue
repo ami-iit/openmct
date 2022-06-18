@@ -136,9 +136,7 @@ export default {
     },
     mounted() {
         this.initialize();
-        this.seriesObject.listenTo(this.seriesObject, 'change:yKey', () => {
-            this.unit = this.seriesObject.get('unit');
-        }, this);
+        this.seriesObject.listenTo(this.seriesObject, 'change:unit', () => {this.unit = this.seriesObject.get('unit')}, this);
     },
     methods: {
         initialize(highlightedObject) {
