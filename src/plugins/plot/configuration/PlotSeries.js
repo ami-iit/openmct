@@ -487,11 +487,6 @@ export default class PlotSeries extends Model {
 
         return `${markerShape}: ${markerSize}px`;
     }
-    nameWithUnit() {
-        let unit = this.get('unit');
-
-        return this.get('name') + (unit ? ' ' + unit : '');
-    }
 
     /**
      * Update the series data with the given value.

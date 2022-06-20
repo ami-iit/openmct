@@ -36,7 +36,7 @@
         <span class="is-status__indicator"
               title="This item is missing or suspect"
         ></span>
-        <span class="plot-series-name">{{ name }}</span>
+        <span class="plot-series-name">{{ name }} - {{ yKeyLabel }}</span>
     </td>
 
     <td v-if="showTimestampWhenExpanded">
@@ -125,6 +125,9 @@ export default {
         },
         name() {
             return this.seriesObject.get('name');
+        },
+        yKeyLabel() {
+            return this.seriesObject.get('label');
         },
         unit() {
             return this.seriesObject.get('unit');

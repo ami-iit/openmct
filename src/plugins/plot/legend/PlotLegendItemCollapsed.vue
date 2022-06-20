@@ -35,7 +35,10 @@
         <span class="is-status__indicator"
               title="This item is missing or suspect"
         ></span>
-        <span class="plot-series-name">{{ nameWithUnit }}</span>
+        <span class="plot-series-name">{{ name }}</span>
+        <span v-if="valueToShowWhenCollapsed === 'nearestValue'"
+              class="plot-series-name"
+        > - {{ yKeyLabel }} [{{ unit }}]</span>
     </div>
     <div v-show="!!highlights.length && (valueToShowWhenCollapsed !== 'none')"
          class="plot-series-value hover-value-enabled"
@@ -82,8 +85,14 @@ export default {
         };
     },
     computed: {
-        nameWithUnit() {
-            return this.seriesObject.nameWithUnit();
+        name() {
+            return this.seriesObject.get('name');
+        },
+        yKeyLabel() {
+            return this.seriesObject.get('label');
+        },
+        unit() {
+            return this.seriesObject.get('unit');
         },
         valueToDisplayWhenCollapsedClass() {
             return `value-to-display-${ this.valueToShowWhenCollapsed }`;
