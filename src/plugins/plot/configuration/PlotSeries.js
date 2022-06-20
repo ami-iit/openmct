@@ -97,6 +97,7 @@ export default class PlotSeries extends Model {
         return {
             name: options.domainObject.name,
             unit: range.unit,
+            label: range.name,
             xKey: options.collection.plot.xAxis.get('key'),
             yKey: range.key,
             markers: true,

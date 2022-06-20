@@ -992,6 +992,7 @@ export default {
 
         setYAxisKey(yKey) {
             const series = this.config.series.models[0];
+            series.set('label', series.metadata.value(yKey).name);
             series.set('unit', series.metadata.value(yKey).unit);
             series.set('yKey', yKey);
         },
