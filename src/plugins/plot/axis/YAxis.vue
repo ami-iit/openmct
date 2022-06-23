@@ -58,6 +58,7 @@
 <script>
 import MctTicks from "../MctTicks.vue";
 import configStore from "../configuration/ConfigStore";
+import eventBus from '../lib/eventBus';
 
 export default {
     components: {
@@ -97,6 +98,9 @@ export default {
         this.yAxisUnit = this.yAxis.get('unit');
         this.loaded = true;
         this.setUpYAxisOptions();
+        eventBus.$on("yKeyChangedInSeriesForm", (yKey) => {
+            this.toggleYAxisKey(yKey);
+        });
     },
     methods: {
         getYAxisFromConfig() {
@@ -126,14 +130,16 @@ export default {
         },
         toggleYAxisLabel() {
             let yAxisObject = this.yKeyOptions.filter(o => o.name === this.yAxisLabel)[0];
-
             if (yAxisObject) {
-                this.$emit('yKeyChanged', yAxisObject.key);
-                this.$nextTick(function () {
-                  this.yAxisLabel = this.yAxis.get('label');
-                  this.yAxisUnit = this.yAxis.get('unit');
-                }.bind(this));
+                this.toggleYAxisKey(yAxisObject.key);
             }
+        },
+        toggleYAxisKey(yKey) {
+            this.$emit('yKeyChanged', yKey);
+            this.$nextTick(function () {
+              this.yAxisLabel = this.yAxis.get('label');
+              this.yAxisUnit = this.yAxis.get('unit');
+            }.bind(this));
         },
         onTickWidthChange(width) {
             this.$emit('tickWidthChanged', width);

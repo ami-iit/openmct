@@ -132,6 +132,7 @@
 import ColorSwatch from '@/ui/color/ColorSwatch.vue';
 import { MARKER_SHAPES } from "../../draw/MarkerShapes";
 import { objectPath, validate, coerce } from "./formUtil";
+import eventBus from "../../lib/eventBus";
 import _ from 'lodash';
 
 export default {
@@ -308,6 +309,8 @@ export default {
             const newVal = this[formKey];
             const oldVal = this.series.get(formKey);
             const formField = this.fields.find((field) => field.modelProp === formKey);
+
+            eventBus.$emit('yKeyChangedInSeriesForm', newVal);
 
             const path = objectPath(formField.objectPath);
             const validationResult = validate(newVal, this.series, formField.validate);
