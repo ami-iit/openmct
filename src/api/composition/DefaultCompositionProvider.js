@@ -187,10 +187,8 @@ define([
      * @method add
      */
     DefaultCompositionProvider.prototype.add = function (parent, childId) {
-        if (!this.includes(parent, childId)) {
-            parent.composition.push(childId);
-            this.publicAPI.objects.mutate(parent, 'composition', parent.composition);
-        }
+        parent.composition.push(childId);
+        this.publicAPI.objects.mutate(parent, 'composition', parent.composition);
     };
 
     /**
