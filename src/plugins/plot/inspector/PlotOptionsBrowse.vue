@@ -156,7 +156,7 @@ export default {
     },
     methods: {
         initConfiguration() {
-            this.label = this.config.yAxis.get('label');
+            this.label = '';
             this.autoscale = this.config.yAxis.get('autoscale');
             this.autoscalePadding = this.config.yAxis.get('autoscalePadding');
             const range = this.config.yAxis.get('range');

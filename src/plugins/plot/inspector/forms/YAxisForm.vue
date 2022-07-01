@@ -9,7 +9,6 @@
             <div class="grid-cell value"><input v-model="label"
                                                 class="c-input--flex"
                                                 type="text"
-                                                @change="updateForm('label')"
             ></div>
         </li>
     </ul>
@@ -176,7 +175,7 @@ export default {
             ];
         },
         initFormValues() {
-            this.label = this.yAxis.get('label');
+            this.label = '';
             this.autoscale = this.yAxis.get('autoscale');
             this.autoscalePadding = this.yAxis.get('autoscalePadding');
             const range = this.yAxis.get('range');
