@@ -188,7 +188,7 @@ define([
      * @memberof module:openmct.CompositionCollection#
      * @name add
      */
-    CompositionCollection.prototype.add = function (child, skipMutate) {
+    CompositionCollection.prototype.add = function (child, skipMutate, childIndex) {
         if (!skipMutate) {
             if (!this.publicAPI.composition.checkPolicy(this.domainObject, child)) {
                 throw `Object of type ${child.type} cannot be added to object of type ${this.domainObject.type}`;
@@ -203,7 +203,7 @@ define([
                 this.mutables[keyString] = child;
             }
 
-            this.emit('add', child);
+            this.emit('add', child, childIndex);
         }
     };
 
@@ -223,7 +223,7 @@ define([
                 return Promise.all(children.map((c) => this.publicAPI.objects.get(c, abortSignal)));
             }.bind(this))
             .then(function (childObjects) {
-                childObjects.forEach(c => this.add(c, true));
+                childObjects.forEach((c,index) => this.add(c, true, index));
 
                 return childObjects;
             }.bind(this))
