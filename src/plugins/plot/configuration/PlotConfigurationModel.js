@@ -85,7 +85,8 @@ export default class PlotConfigurationModel extends Model {
 
         return domainObject.configuration.series.filter(function (seriesConfig) {
             return seriesConfig.identifier.key === identifier.key
-                    && seriesConfig.identifier.namespace === identifier.namespace;
+                && seriesConfig.identifier.namespace === identifier.namespace
+                && seriesConfig.identifier.index === identifier.index;
         })[0];
     }
     /**
