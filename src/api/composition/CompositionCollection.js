@@ -290,8 +290,8 @@ define([
      * @private
      */
     CompositionCollection.prototype.onProviderAdd = function (childId) {
-        return this.publicAPI.objects.get(childId).then(function (child) {
-            this.add(child, true);
+        return this.publicAPI.objects.get(childId).then(function (child, index) {
+            this.add(child, true, index);
 
             return child;
         }.bind(this));
