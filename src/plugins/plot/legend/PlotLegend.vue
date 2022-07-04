@@ -62,6 +62,7 @@
                 <thead>
                     <tr>
                         <th>Name</th>
+                        <th>Y Axis Label</th>
                         <th v-if="showTimestampWhenExpanded">
                             Timestamp
                         </th>

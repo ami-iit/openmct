@@ -25,8 +25,8 @@
 >
     <ul class="c-tree">
         <h2 title="Plot series display properties in this object">Plot Series</h2>
-        <plot-options-item v-for="series in plotSeries"
-                           :key="series.key"
+        <plot-options-item v-for="(series, index) in plotSeries"
+                           :key="series.keyString+index"
                            :series="series"
         />
     </ul>
@@ -156,7 +156,7 @@ export default {
     },
     methods: {
         initConfiguration() {
-            this.label = this.config.yAxis.get('label');
+            this.label = '';
             this.autoscale = this.config.yAxis.get('autoscale');
             this.autoscalePadding = this.config.yAxis.get('autoscalePadding');
             const range = this.config.yAxis.get('range');

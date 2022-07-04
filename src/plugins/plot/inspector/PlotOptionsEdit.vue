@@ -25,8 +25,8 @@
 >
     <ul class="c-tree">
         <h2 title="Display properties for this object">Plot Series</h2>
-        <li v-for="series in plotSeries"
-            :key="series.key"
+        <li v-for="(series, index) in plotSeries"
+            :key="series.keyString+index"
         >
             <series-form :series="series" />
         </li>

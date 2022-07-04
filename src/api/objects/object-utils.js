@@ -58,27 +58,20 @@ define([
             return keyString;
         }
 
-        let namespace = '';
-        let key = keyString;
-        for (let i = 0; i < key.length; i++) {
-            if (key[i] === "\\" && key[i + 1] === ":") {
-                i++; // skip escape character.
-            } else if (key[i] === ":") {
-                key = key.slice(i + 1);
-                break;
-            }
+        let keyStringMap = keyString.replace(/\\:/g,'\\-').split(':');
 
-            namespace += key[i];
+        // We got one of the following field maps:
+        // - [namespace,key,index]
+        // - [namespace,key]
+        // - [key]
+        switch (keyStringMap.length) {
+            case 1:
+                return {namespace: '', key: keyStringMap[0], index: undefined};
+            case 2:
+                return {namespace: keyStringMap[0].replace(/\\-/g,':'), key: keyStringMap[1], index: undefined};
+            case 3:
+                return {namespace: keyStringMap[0].replace(/\\-/g,':'), key: keyStringMap[1], index: keyStringMap[2]};
         }
-
-        if (keyString === namespace) {
-            namespace = '';
-        }
-
-        return {
-            namespace: namespace,
-            key: key
-        };
     }
 
     /**
@@ -95,14 +88,15 @@ define([
             return identifier;
         }
 
-        if (!identifier.namespace) {
-            return identifier.key;
-        }
+        let namespace = identifier.namespace ? identifier.namespace.replace(/:/g, '\\:') : undefined;
 
-        return [
-            identifier.namespace.replace(/:/g, '\\:'),
-            identifier.key
-        ].join(':');
+        let keyElements = [
+            namespace,
+            identifier.key,
+            identifier.index
+        ];
+
+        return keyElements.filter((elem) => elem !== undefined).join(':');
     }
 
     /**

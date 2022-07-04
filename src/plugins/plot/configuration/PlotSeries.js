@@ -215,6 +215,7 @@ export default class PlotSeries extends Model {
     /**
      * Update y formatter on change, default to stepAfter interpolation if
      * y range is an enumeration.
+     * Update PlotSeries model y-axis 'label' and 'unit'.
      */
     onYKeyChange(newKey, oldKey) {
         if (newKey === oldKey) {
@@ -235,6 +236,9 @@ export default class PlotSeries extends Model {
         }.bind(this);
         const format = this.formats[newKey];
         this.getYVal = format.parse.bind(format);
+
+        this.set('label', this.metadata.value(newKey).name);
+        this.set('unit', this.metadata.value(newKey).unit);
     }
 
     formatX(point) {
