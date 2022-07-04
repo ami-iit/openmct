@@ -53,7 +53,7 @@ define([
      * @param keyString
      * @returns identifier
      */
-    function parseKeyString(keyString) {
+    function parseKeyString2(keyString) {
         if (isIdentifier(keyString)) {
             return keyString;
         }
@@ -66,7 +66,7 @@ define([
             } else if (key[i] === ":") {
                 key = key.slice(i + 1);
                 break;
-            }
+    }
 
             namespace += key[i];
         }
@@ -81,6 +81,35 @@ define([
         };
     }
 
+    function parseKeyString(keyString) {
+        if (isIdentifier(keyString)) {
+            return keyString;
+        }
+
+        let prefix = keyString.split('.')[0];
+        let prefix2fields = {n:"namespace", k:"key", i:"index"};
+        let keyStringMap = keyString.slice(prefix.length+1).replace(/\\:/g,'\\-').split(':');
+
+        // We got one of the following field maps:
+        // - [namespace,key,index]
+        // - [namespace,key]
+        // - [key,index]
+        // The prefix helps handling all the use cases
+        let identifier = {
+            namespace: '',
+            key: '',
+            index: undefined
+        };
+        prefix.split('').forEach((value,index) => {
+            identifier[prefix2fields[value]] = keyStringMap[index];
+        });
+        if (identifier.namespace) {
+            identifier.namespace.replace(/\\-/g,':');
+        }
+
+        return identifier;
+    }
+
     /**
      * Convert an Open MCT Identifier into a keyString, ex:
      * {namespace: 'scratch', key: 'root'} ==> 'scratch:root'
@@ -92,17 +121,26 @@ define([
      */
     function makeKeyString(identifier) {
         if (isKeyString(identifier)) {
-            return identifier;
+            return 'k.' + identifier;
         }
 
-        if (!identifier.namespace) {
-            return identifier.key;
-        }
+        let namespace = identifier.namespace ? identifier.namespace.replace(/:/g, '\\:') : undefined;
 
-        return [
-            identifier.namespace.replace(/:/g, '\\:'),
-            identifier.key
-        ].join(':');
+        let keyElements = [
+            namespace,
+            identifier.key,
+            identifier.index
+        ];
+
+        let keyElementsIdx2prefix = ['n','k','i'];
+
+        let prefix = keyElements.map((elem, index) => {
+            if (elem !== undefined) {
+                return keyElementsIdx2prefix[index];
+            }
+        }).join('');
+
+        return prefix + '.' + keyElements.filter((elem) => elem !== undefined).join(':');
     }
 
     /**
@@ -170,6 +208,7 @@ define([
         toNewFormat: toNewFormat,
         makeKeyString: makeKeyString,
         parseKeyString: parseKeyString,
+        parseKeyString2: parseKeyString2,
         equals: objectEquals,
         identifierEquals: identifierEquals
     };
