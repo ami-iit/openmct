@@ -36,7 +36,10 @@
         <span class="is-status__indicator"
               title="This item is missing or suspect"
         ></span>
-        <span class="plot-series-name">{{ name }} - {{ yKeyLabel }}</span>
+        <span class="plot-series-name">{{ name }}</span>
+    </td>
+    <td>
+      <span class="plot-series-name">{{ yKeyLabel }}</span>
     </td>
 
     <td v-if="showTimestampWhenExpanded">
