@@ -77,21 +77,16 @@ export default class PlotConfigurationModel extends Model {
     /**
      * Retrieve the persisted series config for a given identifier.
      */
-    getPersistedSeriesConfig(identifier, index) {
+    getPersistedSeriesConfig(identifier) {
         const domainObject = this.get('domainObject');
         if (!domainObject.configuration || !domainObject.configuration.series) {
             return;
         }
 
-        const persistedSeriesConfigArray = domainObject.configuration.series.filter(function (seriesConfig) {
+        return domainObject.configuration.series.filter(function (seriesConfig) {
             return seriesConfig.identifier.key === identifier.key
                     && seriesConfig.identifier.namespace === identifier.namespace;
-        });
-        if (index >= persistedSeriesConfigArray.length) {
-            return persistedSeriesConfigArray[0];
-        }
-
-        return persistedSeriesConfigArray[index];
+        })[0];
     }
     /**
      * Retrieve the persisted filters for a given identifier.

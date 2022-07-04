@@ -60,7 +60,7 @@ export default class SeriesCollection extends Collection {
         composition.load();
     }
     addTelemetryObject(domainObject, index) {
-        let seriesConfig = this.plot.getPersistedSeriesConfig(domainObject.identifier, index);
+        let seriesConfig = this.plot.getPersistedSeriesConfig(domainObject.identifier);
         const filters = this.plot.getPersistedFilters(domainObject.identifier);
         const plotObject = this.plot.get('domainObject');
 
@@ -76,7 +76,7 @@ export default class SeriesCollection extends Collection {
                     seriesConfig
                 );
                 seriesConfig = this.plot
-                    .getPersistedSeriesConfig(domainObject.identifier, index);
+                    .getPersistedSeriesConfig(domainObject.identifier);
             }
         }
 
@@ -89,7 +89,7 @@ export default class SeriesCollection extends Collection {
             collection: this,
             openmct: this.openmct,
             persistedConfig: this.plot
-                .getPersistedSeriesConfig(domainObject.identifier, index),
+                .getPersistedSeriesConfig(domainObject.identifier),
             filters: filters
         }));
     }
