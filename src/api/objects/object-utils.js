@@ -53,61 +53,25 @@ define([
      * @param keyString
      * @returns identifier
      */
-    function parseKeyString2(keyString) {
-        if (isIdentifier(keyString)) {
-            return keyString;
-        }
-
-        let namespace = '';
-        let key = keyString;
-        for (let i = 0; i < key.length; i++) {
-            if (key[i] === "\\" && key[i + 1] === ":") {
-                i++; // skip escape character.
-            } else if (key[i] === ":") {
-                key = key.slice(i + 1);
-                break;
-    }
-
-            namespace += key[i];
-        }
-
-        if (keyString === namespace) {
-            namespace = '';
-        }
-
-        return {
-            namespace: namespace,
-            key: key
-        };
-    }
-
     function parseKeyString(keyString) {
         if (isIdentifier(keyString)) {
             return keyString;
         }
 
-        let prefix = keyString.split('.')[0];
-        let prefix2fields = {n:"namespace", k:"key", i:"index"};
-        let keyStringMap = keyString.slice(prefix.length+1).replace(/\\:/g,'\\-').split(':');
+        let keyStringMap = keyString.replace(/\\:/g,'\\-').split(':');
 
         // We got one of the following field maps:
         // - [namespace,key,index]
         // - [namespace,key]
-        // - [key,index]
-        // The prefix helps handling all the use cases
-        let identifier = {
-            namespace: '',
-            key: '',
-            index: undefined
-        };
-        prefix.split('').forEach((value,index) => {
-            identifier[prefix2fields[value]] = keyStringMap[index];
-        });
-        if (identifier.namespace) {
-            identifier.namespace.replace(/\\-/g,':');
+        // - [key]
+        switch (keyStringMap.length) {
+            case 1:
+                return {namespace: '', key: keyStringMap[0], index: undefined};
+            case 2:
+                return {namespace: keyStringMap[0].replace(/\\-/g,':'), key: keyStringMap[1], index: undefined};
+            case 3:
+                return {namespace: keyStringMap[0].replace(/\\-/g,':'), key: keyStringMap[1], index: keyStringMap[2]};
         }
-
-        return identifier;
     }
 
     /**
@@ -121,7 +85,7 @@ define([
      */
     function makeKeyString(identifier) {
         if (isKeyString(identifier)) {
-            return 'k.' + identifier;
+            return identifier;
         }
 
         let namespace = identifier.namespace ? identifier.namespace.replace(/:/g, '\\:') : undefined;
@@ -132,15 +96,7 @@ define([
             identifier.index
         ];
 
-        let keyElementsIdx2prefix = ['n','k','i'];
-
-        let prefix = keyElements.map((elem, index) => {
-            if (elem !== undefined) {
-                return keyElementsIdx2prefix[index];
-            }
-        }).join('');
-
-        return prefix + '.' + keyElements.filter((elem) => elem !== undefined).join(':');
+        return keyElements.filter((elem) => elem !== undefined).join(':');
     }
 
     /**
@@ -208,7 +164,6 @@ define([
         toNewFormat: toNewFormat,
         makeKeyString: makeKeyString,
         parseKeyString: parseKeyString,
-        parseKeyString2: parseKeyString2,
         equals: objectEquals,
         identifierEquals: identifierEquals
     };
