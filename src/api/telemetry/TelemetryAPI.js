@@ -353,7 +353,7 @@ define([
             this.subscribeCache = {};
         }
 
-        const keyString = objectUtils.makeKeyString(domainObject.identifier);
+        const keyString = objectUtils.makeKeyStringSkipIndex(domainObject.identifier);
         let subscriber = this.subscribeCache[keyString];
 
         if (!subscriber) {

@@ -76,24 +76,28 @@ define([
 
     /**
      * Convert an Open MCT Identifier into a keyString, ex:
-     * {namespace: 'scratch', key: 'root'} ==> 'scratch:root'
+     * {namespace: 'scratch', key: 'root', index: 1} ==> 'scratch:root:1'
+     *
+     * If skipIndex=true, it returns instead 'scratch:root'.
      *
      * Idempotent
      *
      * @param identifier
+     * @param skipIndex
      * @returns keyString
      */
-    function makeKeyString(identifier) {
+    function makeKeyString(identifier, skipIndex) {
         if (isKeyString(identifier)) {
             return identifier;
         }
 
         let namespace = identifier.namespace ? identifier.namespace.replace(/:/g, '\\:') : undefined;
+        let index = skipIndex ? undefined : identifier.index;
 
         let keyElements = [
             namespace,
             identifier.key,
-            identifier.index
+            index
         ];
 
         return keyElements.filter((elem) => elem !== undefined).join(':');
@@ -111,7 +115,7 @@ define([
         model = JSON.parse(JSON.stringify(model));
         delete model.identifier;
         if (model.composition) {
-            model.composition = model.composition.map(makeKeyString);
+            model.composition = model.composition.map((value) => makeKeyString(value, false));
         }
 
         return model;
@@ -162,7 +166,8 @@ define([
     return {
         toOldFormat: toOldFormat,
         toNewFormat: toNewFormat,
-        makeKeyString: makeKeyString,
+        makeKeyString: (identifier) => makeKeyString(identifier, false),
+        makeKeyStringSkipIndex: (identifier) => makeKeyString(identifier, true),
         parseKeyString: parseKeyString,
         equals: objectEquals,
         identifierEquals: identifierEquals
